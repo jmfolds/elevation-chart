@@ -1,0 +1,33 @@
+{
+    "extends": ["airbnb", "plugin:react/recommended"],
+    "plugins": [
+        "react"
+    ],
+    "globals": {
+        "document": true
+    },
+    "rules": {
+        "jsx-a11y/anchor-is-valid": [ "error", {
+          "components": [ "Link" ],
+          "specialLink": [ "hrefLeft", "hrefRight", "to" ],
+          "aspects": [ "noHref", "invalidHref", "preferButton" ]
+        }],
+        "jsx-a11y/label-has-for": [ 2, {
+          "components": [ "Label" ],
+          "required": {
+              "every": [ "id" ]
+          },
+          "allowChildren": false
+        }],
+        "linebreak-style": 0,
+        "no-param-reassign": 0,
+        "indent": [2, 4, { "ignoredNodes": ["JSXElement *"]}],
+        "no-unused-vars": 1,
+        "quotes": [2, "single", {"avoidEscape": true, "allowTemplateLiterals": true}],
+        "quote-props": [2, "consistent"],
+        "no-console": 0,
+        "react/jsx-indent": [2, 4],
+        "react/jsx-indent-props": [0, 4],
+        "react/jsx-closing-bracket-location": [1, {"selfClosing": "line-aligned", "nonEmpty": "after-props"}]
+    }
+  }
