@@ -4,7 +4,8 @@
         "react"
     ],
     "globals": {
-        "document": true
+        "document": true,
+        "window": true
     },
     "rules": {
         "jsx-a11y/anchor-is-valid": [ "error", {

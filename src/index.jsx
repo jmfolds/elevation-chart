@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import L from 'leaflet';
 import ElevationChart from './ElevationChart';
 
 export default class Elevation {
@@ -15,6 +14,7 @@ export default class Elevation {
     }) {
         ReactDOM.render(
             <ElevationChart
+                ref={(el) => { this.ref = el; }}
                 map={map}
                 polyline={polyline}
                 clickedDataIndexes={clickedDataIndexes}
@@ -25,7 +25,10 @@ export default class Elevation {
             />,
             container,
         );
+        this.api = {
+            getLength: this.ref.getLength.bind(this.ref),
+        };
     }
 }
 
-L.Elevation = Elevation; //eslint-disable-line
+window.ElevationChart = Elevation;
