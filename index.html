@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
     integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
     crossorigin=""/>
-    <link rel="stylesheet" href="./dist/leaflet.elevation.css"/>    
     <title>Leaflet Elevation</title>
     <style>
         body,html {
@@ -46,7 +45,7 @@
         
         map.fitBounds(bounds);
       
-        var elevation = new ElevationChart({
+        var elevation = new window.ElevationChart({
             polyline: polyline,
             onMouseout: function() {
                 if (hoverItem) {

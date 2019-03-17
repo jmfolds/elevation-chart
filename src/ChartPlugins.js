@@ -57,8 +57,8 @@ Chart.plugins.register({
         // turn on tooltips
         chart.options.tooltips.enabled = true;
         Chart.helpers.each(chart.pluginTooltips, (tooltip, idx) => {
-            if (!chart.tooltip._active ||
-                    !chart.tooltip._active.length) { return; }
+            if (!chart.tooltip._active
+                    || !chart.tooltip._active.length) { return; }
             chart.tooltip._active.forEach((a) => {
                 if (idx === a._index) {
                     tooltip.initialize();

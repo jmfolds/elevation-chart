@@ -45,7 +45,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['env', 'react'],
+                        presets: ['@babel/env', '@babel/react'],
                     },
                 },
                 exclude: /node_modules/,
@@ -56,7 +56,8 @@ module.exports = {
             },
             {
                 test: /\.s?css$/,
-                use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader!sass-loader' }),
+                use: ['style-loader', 'css-loader', 'sass-loader'],
+                // use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader!sass-loader' }),
             },
             {
                 test: /\.(woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -67,6 +68,9 @@ module.exports = {
                 use: 'url-loader',
             },
         ],
+    },
+    externals: {
+        moment: 'moment'
     },
     resolve: {
         extensions: ['.jsx', '.js', '.css', '.scss'],

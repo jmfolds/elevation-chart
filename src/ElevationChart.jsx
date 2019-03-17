@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import turfLength from '@turf/line-distance';
+import turfLength from '@turf/length';
 import Chart from 'chart.js';
 import './ElevationChart.scss';
 import './ChartPlugins';
@@ -18,7 +18,8 @@ class ElevationChart extends Component {
     }
 
     shouldComponentUpdate(newProps) {
-        if (JSON.stringify(newProps.polyline) === JSON.stringify(this.props.polyline)) {
+        const { polyline } = this.props;
+        if (newProps.polyline === polyline) {
             if (newProps.clickedDataIndexes) {
                 const activeElements = [];
                 newProps.clickedDataIndexes.forEach((idx) => {
@@ -35,16 +36,18 @@ class ElevationChart extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.selectedDataIndex) {
+        const { selectedDataIndex } = this.props;
+        if (selectedDataIndex) {
             const activeElements = [];
-            const requestedElem = this.chart.getDatasetMeta(0).data[this.props.selectedDataIndex];
+            const requestedElem = this.chart.getDatasetMeta(0).data[selectedDataIndex];
             activeElements.push(requestedElem);
             this.setActiveElements(activeElements);
         }
     }
 
     getLength() {
-        const points = this.props.polyline.geometry.coordinates.map(coord => (
+        const { polyline } = this.props;
+        const points = polyline.geometry.coordinates.map(coord => (
             coord
         ));
         // this.props.polyline.geometry.coordinates
@@ -65,7 +68,8 @@ class ElevationChart extends Component {
     getLengthData() {
         const lengths = [];
         const points = [];
-        this.props.polyline.geometry.coordinates
+        const { polyline } = this.props;
+        polyline.geometry.coordinates
             .forEach((coord) => {
                 points.push(coord);
                 if (!lengths.length) {
@@ -87,7 +91,8 @@ class ElevationChart extends Component {
 
     getElevationData() {
         const mVals = [];
-        this.props.polyline.geometry.coordinates
+        const { polyline } = this.props;
+        polyline.geometry.coordinates
             .forEach((coord) => {
                 if (coord[2]) {
                     mVals.push(Math.round(coord[2] * 3.28084));
@@ -103,10 +108,10 @@ class ElevationChart extends Component {
     }
 
     handleClick(e) {
-        console.log('click');
-        if (this.props.onClick) {
+        const { onClick } = this.props;
+        if (onClick) {
             e.activeElements = this.chart.getElementsAtXAxis(e);
-            this.props.onClick(e);
+            onClick(e);
         }
     }
 
@@ -135,9 +140,10 @@ class ElevationChart extends Component {
             options: {
                 onClick: this.handleClick,
                 onHover: (e) => {
+                    const { onMouseout } = this.props;
                     if (e.type === 'mouseout') {
-                        if (this.props.onMouseout) {
-                            this.props.onMouseout();
+                        if (onMouseout) {
+                            onMouseout();
                         }
                     }
                 },
@@ -156,8 +162,9 @@ class ElevationChart extends Component {
                     displayColors: false,
                     callbacks: {
                         title: (e) => {
-                            if (this.props.onHover) {
-                                this.props.onHover(e);
+                            const { onHover } = this.props;
+                            if (onHover) {
+                                onHover(e);
                             }
                         },
                     },
@@ -193,18 +200,19 @@ class ElevationChart extends Component {
 
     render() {
         const data = this.getElevationData();
+        const { height, width } = this.props;
         if (!data.length) {
             return null;
         }
         return (
-            <canvas id="my-chart" style={{ width: this.props.width }} height={this.props.height} />
+            <canvas id="my-chart" style={{ height, width }} />
         );
     }
 }
 ElevationChart.defaultProps = {
     selectedDataIndex: null,
     width: '100%',
-    height: '150px',
+    height: '100px',
     onClick: null,
     onHover: null,
     onMouseout: null,
